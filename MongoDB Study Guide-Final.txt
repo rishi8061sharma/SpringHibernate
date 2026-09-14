@@ -1,0 +1,347 @@
+A)About MongoDB:
+-----------------------------
+* MongoDB is Document based NoSQL Database.
+* MongoDB stores the Data in JSON Format.
+* MongoDB Supports both Structured Data and Un-Structured Data
+* MongoDB is not for Transactional Operations.
+* MongoDB  is best for Read-mostly Data
+* MongoDB is 100 times faster than RDBMS Systems.
+
+MongoDB:
+* Need to Create the Databases
+* Database  is set of Collections
+* Collection is set of Documents
+* Document is set of Properties
+
+MySQL:
+* Need to Create the Databases
+* Database  is set of Tables
+* Table is set of Rows
+* Row is set of Columns
+
+B)Setup MongoDB
+-------------------------
+1)Open  https://www.mongodb.com
+2)Click on Try Free
+3)Click on - MongoDB locallay.
+4)Select MongoDB Community  Server
+5) Select following
+ Version : 4.4.3
+ Platform : Windows
+ Package : msi
+and then Click on Downlod button.
+
+6)You will see the downloaded file name :
+ mongodb-windows-x86_64-4.4.3-signed
+
+7)Click on the Installer you downloaded and follow the Steps 
+
+
+Data Diectory : E:\MyMongoDB\Server\4.4\data
+Log Diectory : E:\MyMongoDB\Server\4.4\log
+
+8)Once the Instalation is copmpleted then twoi things are installed in your computer.
+a)MongoDB Server
+b)MongoDB Compass( UI Client).
+
+9)Open the MongoDB Compass.
+--> Provide Connection URL
+        mongodb://localhost:27017
+ --> Created Database called myhellodb
+---> Created Collection called myusers
+---> Inserted One Document in myusers Collection.
+
+10)Download the Command Line Client from website.
+ Select following
+ Version : 4.4.3
+ Platform : Windows
+ Package : ZIP
+and then Click on Downlod button.
+
+11) Extract the Zip 
+mongodb-windows-x86_64-4.4.3.zip
+
+12)Copy the Bin and Other Files into E:\MyMongoDB\Server\4.4
+
+13)Open the bin and check the files
+mongo.exe - Client (IMP)
+mongod.exe - Server
+
+14)Set the Path to Bin 
+E:\MyMongoDB\Server\4.4\bin
+
+15)Start the Command Line Client 
+D:>mongo
+> 
+
+16)Now Start working with MongoDB
+
+
+C)Working with MongoDB
+--------------------------------
+
+1)Display the Databases
+----------------------------------
+show dbs;
+
+2)Open/Create the database 
+-------------------------------
+use myjlcdb;
+
+3)Show the currently opened database 
+-------------------------------
+db;
+
+4)Drop the database 
+-------------------------------
+db.dropDatabase();
+
+5)Display the collections in database 
+--------------------------------------------------
+show collections;
+
+6)Create the collection in database 
+--------------------------------------------------
+db.createCollection("mystudents");
+
+
+7)insert the documents into collection called mystudents
+--------------------------------------------------
+db.mystudents.insert(
+{"sid":101,
+"sname":"sri",
+"email":"sri@jlc",
+"phone":111,
+"city":"Blore",
+"feepaid":10000,
+"feebal":10000}
+);
+
+db.mystudents.insert({"sid":102,"sname":"vas","email":"vas@jlc","phone":222,"city":"Blore","feepaid":15000,"feebal":5000});
+
+db.mystudents.insert({"sid":103,"sname":"aa","email":"aa@jlc","phone":333,"city":"Blore","feepaid":12000,"feebal":8000});
+
+db.mystudents.insert({"sid":104,"sname":"bb","email":"bb@jlc","phone":444,"city":"Hyd","feepaid":5000,"feebal":15000});
+
+
+8)Select the documents from collection called mystudents
+--------------------------------------------------
+db.mystudents.find()
+
+db.mystudents.find().pretty()
+
+9) dropping Collection
+---------------------
+db.myusers.drop();
+
+
+10)insert the records into document 
+--------------------------------------------------
+
+db.mystudents.insertMany(
+[
+{"sid":105,"sname":"cc","email":"cc@jlc","phone":555,"city":"Delhi","feepaid":18000,"feebal":2000},
+{"sid":106,"sname":"sd","email":"sd@jlc","phone":222,"city":"Hyd","feepaid":5000,"feebal":15000},
+{"sid":107,"sname":"ds","email":"ds@jlc","phone":222,"city":"Blore","feepaid":11000,"feebal":9000},
+]
+);
+
+db.mystudents.insertOne({"sid":108,"sname":"hello","email":"hello@jlc","phone":888,"city":"Hyd","feepaid":5000,"feebal":15000});
+
+db.mystudents.insertOne({"sid":109,"sname":"hai","email":"hai@jlc","phone":999,"city":"Blore","feepaid":5000,"feebal":15000});
+
+db.mystudents.insertOne({"sid":110,"sname":"ss","email":"hai@jlc","phone":999});
+
+db.mystudents.insertOne({"sid":111,"sname":"dd"});
+
+11)Updating the documents of mystudents collections
+--------------------------------------------------
+
+db.mystudents.update( 
+{'phone':888}, {$set:{'phone':555}}
+)
+
+=> First Object is Condition
+=> Second Object is Data to Update
+
+db.mystudents.update(
+{'sid':101},
+{$set:{'phone':555,'email':"dande@jlc"}}
+)
+
+
+12)Deleting the documents of mystudents collections
+--------------------------------------------------
+db.mystudents.remove({'sid':111})
+
+db.mystudents.remove({'sname':'ss'})
+
+=>Parameter of remove method is Condition
+
+
+
+13)Display All the Student documents from collection called mystudents
+--------------------------------------------------
+db.mystudents.find()
+
+db.mystudents.find().pretty()
+
+find() => All documents and All Properties
+
+select * from mystudents => All Rows and All Cols
+
+find({First},{Second}) 
+{First} => Condition => Filter the Documents
+{Second} => Projection  => Filter the Properties
+
+14)Display All the Students with given City
+--------------------------------------------------
+db.mystudents.find({"city":"Blore"})
+
+db.mystudents.find({"city":"Blore"}).pretty()
+
+
+15)Display the Students with given Phone Number
+--------------------------------------------------
+db.mystudents.find({"phone":555})
+
+db.mystudents.find({"phone":555}).pretty()
+
+db.mystudents.findOne({"phone":555}) 
+
+
+16)Display Student with given Email Id
+--------------------------------------------------
+db.mystudents.findOne({"email":"sd@jlc"})
+
+
+17)Display Student with given Phone and Email
+---------------------------------------------------------------
+db.mystudents.find({"phone":555,"email":"hello@jlc"})
+
+db.mystudents.find({"phone":555,"email":"cc@jlc"})
+
+db.mystudents.find({"phone":555,"email":"sri@jlc"})
+
+18)Display Student with given P.K
+--------------------------------------------------
+db.mystudents.findOne(
+{"_id" : ObjectId("6024055dc7ee42e05dec3863")})
+
+
+19) Relational Operators
+--------------------------------------------------
+db.mystudents.find({"feebal":15000})    //feebal == 15000
+
+db.mystudents.find({"feebal":{$ne:15000}}) //feebal != 15000
+
+db.mystudents.find({"feebal":{$gte:10000}})
+
+db.mystudents.find({"feebal":{$gt:10000}})
+
+db.mystudents.find({"feebal":{$lte:10000}})
+
+db.mystudents.find({"feebal":{$lt:10000}})
+
+20)In Operator and Not In Operator
+--------------------------------------------------
+db.mystudents.find({"city":"Hyd"})
+
+db.mystudents.find({"city":"Delhi"})
+
+db.mystudents.find({"city":{$in:["Hyd","Delhi"]}})
+
+db.mystudents.find({"city":{$nin:["Hyd","Delhi"]}})
+
+21) AND Operator
+------------------------
+db.mystudents.find({"city":"Blore"})
+
+
+db.mystudents.find({$and: [{"city":"Blore"},{"feebal":{$gte:9000}}]})
+
+db.mystudents.find({$and: [{"city":"Blore"},{"feebal":{$lte:9000}}]})
+
+
+db.mystudents.find(
+{    $and: [
+                       {"city":"Blore"},
+                       {"feebal":{$gte:9000}}
+                   ]
+}
+)
+
+22) OR Operator
+------------------------
+db.mystudents.find({"city":"Blore"})
+
+db.mystudents.find({$or: [{"city":"Blore"},{"feebal":{$gte:15000}}]})
+
+23) NOT Operator
+------------------------
+
+db.mystudents.find({"feebal":{ $not: { $gt: 8000 } } })
+
+
+24) Projections
+----------------------
+db.mystudents.find();
+db.mystudents.find({});
+db.mystudents.find({},{});
+
+db.mystudents.find({'phone':555},{});
+
+db.mystudents.find({'phone':555},{_id:0})
+
+db.mystudents.find({'phone':555},{_id:0,feebal:0,feepaid:0})
+
+db.mystudents.find({'phone':555},{_id:0,feebal:0,feepaid:0,city:0})
+
+db.mystudents.find({},{_id:0,feebal:0,feepaid:0,city:0})
+
+
+ 25)Limiting the documents of mystudents collections
+--------------------------------------------------
+ db.mystudents.find().limit(3);
+
+ db.mystudents.find().limit(5);
+
+26)Sorting the documents of mystudents collections
+--------------------------------------------------
+db.mystudents.find().sort({"email":1});
+db.mystudents.find().sort({"email":-1});
+
+db.mystudents.find().sort({"email":1}).pretty();
+db.mystudents.find().sort({"email":-1}).pretty();
+
+db.mystudents.find({},{_id:0,email:0,feepaid:0,city:0}).sort({"feebal":1});
+db.mystudents.find({},{_id:0,email:0,feepaid:0,city:0}).sort({"feebal":-1});
+
+27)INdexes in Mongodb
+--------------------------------------------------
+db.mystudents.createIndex({"phone":1})
+db.mystudents.createIndex({"email":-1})
+
+db.mystudents.getIndexes()
+
+Data Types:
+----------------
+number
+String
+date,
+boolean,
+double
+Object
+Array
+ObjectId
+binary
+
+Further you can study:
+------------------------------
+1)Regular Expressions
+2)MapReduce Functions
+
+
+
+
+

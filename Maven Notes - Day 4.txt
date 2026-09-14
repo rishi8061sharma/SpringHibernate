@@ -1,0 +1,177 @@
+A) Setup Maven on your Machine
+-----------------------------------
+JDK 1.8
+Maven 3.8.4
+Windows 10
+
+1)make sure that JDk1.8+ is Installed
+
+2)Set JAVA_HOME system variable
+
+SET JAVA_HOME=E:\JDK1.8.0
+
+Variable Name : JAVA_HOME
+Variable Value :  E:\JDK1.8.0
+
+3) Add %JAVA_HOME%\bin To PATH
+
+SET PATH = %PATH%;%JAVA_HOME%\bin;
+
+Variable Name : PATH 
+Variable Value :  %PATH%;%JAVA_HOME%\bin;
+
+4)Download Maven 3.8.4 from http://maven.apache.org/download.cgi
+
+ You will get  apache-maven-3.8.4-bin.zip
+
+Just extract the zip in E Drive;
+Now your maven path is : E:\apache-maven-3.8.4
+
+5)Add MAVEN_HOME system variable
+
+SET MAVEN_HOME=E:\apache-maven-3.8.4
+
+Variable Name : MAVEN_HOME
+Variable Value :  E:\apache-maven-3.8.4
+
+6) Add %MAVEN_HOME%\bin To PATH
+
+SET PATH=%PATH%;%MAVEN_HOME%\bin;
+
+Variable Name : PATH
+Variable Value :  %PATH%;%MAVEN_HOME%\bin;
+
+7)Check Maven Installation
+
+mvn --version
+
+mvn -v
+
+8) Find Maven Local Repository
+-----------------------------------
+If the default .m2 is unable to find, maybe someone changed the default path. 
+Issue the following command to find out where is the Maven local repository:
+
+mvn help:evaluate -Dexpression=settings.localRepository
+
+C:\Users\User\.m2\repository
+
+9)Update Maven Local Repository
+-----------------------------------
+*Find this file E:\apache-maven-3.8.4\conf\settings.xml and update the localRepository.
+
+<localRepository>E:/myjlc/myrepo</localRepository>
+
+10)Change the Maven Repository in Eclipse:
+--------------------------------------------
+1)Select window -> Preferences
+2)Select maven -> User Settings
+3)browse the settings.xml from {MAVEN_HOME}\conf\settings.xml  for both global settings and user settings
+4)Click on Apply
+5)Click on Apply and Close
+
+------------------------------------------------------------------------
+
+B) Running Maven Builds
+--------------------------------
+From  Command Line:
+------------------
+mvn clean
+mvn compile
+mvn package
+mvn install
+mvn test
+
+mvn clean install
+mvn clean package
+mvn clean compile package
+mvn clean compile package install
+
+==============================================
+C) Maven Wrappers
+---------------------------
+mvn -N io.takari:maven:wrapper
+
+
+myjlcapp
+mvn -N io.takari:maven:wrapper -Dmaven=3.5.0
+
+hello-app
+mvn -N io.takari:maven:wrapper -Dmaven=3.6.3
+
+mvn --version
+mvnw --version
+
+
+D) Add Compiler Plug In to pom.xml
+--------------------------------
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-compiler-plugin</artifactId>
+<version>3.8.0</version>
+<configuration>
+<source>1.8</source>
+<target>1.8</target>
+</configuration>
+</plugin>
+
+==============================================
+E) Add Execution Plug In to pom.xml
+--------------------------------
+<plugin>
+<groupId>org.codehaus.mojo</groupId>
+<artifactId>exec-maven-plugin</artifactId>
+<version>3.0.0</version>
+<configuration>
+<mainClass>com.jlcindia.Hello</mainClass>
+<arguments>
+<argument>Red</argument>
+<argument>Green</argument>
+<argument>Blue</argument>
+</arguments>
+</configuration>
+</plugin>
+
+ mvn compile
+ mvn exec:java
+ mvn compile exec:java
+
+==============================================
+F) Installing Oracle Jar into Maven Local Repo:
+--------------------------------------------------------
+1)Get ojdbc6.jar file
+----------------------------
+download ojdbc6.jar 
+place ojdbc6.jar in D:\FreeCourses\Maven
+
+2) Maven Install ojdbc6.jar
+-------------------------------------
+$ mvn install:install-file -Dfile=ojdbc6.jar  -DgroupId=com.oracle  -DartifactId=ojdbc6  -Dversion=11.2 -Dpackaging=jar
+
+$ mvn install:install-file -Dfile=ojdbc6.jar  -DgroupId=oracle  -DartifactId=oracle-ojdbc -Dversion=11 -Dpackaging=jar
+
+3)use the following dependency in pom.xml
+-----------------------------------------------------
+<dependency>
+<groupId>com.oracle</groupId>
+<artifactId>ojdbc6</artifactId>
+<version>11.2</version>
+</dependency>
+
+<dependency>
+<groupId>oracle</groupId>
+<artifactId>oracle-ojdbc6</artifactId>
+<version>11</version>
+</dependency>
+
+==============================================
+G) Using Our Application jars in Pom
+---------------------------------------------------
+Create Another Maven Project and use the Existing Maven Project
+
+<dependency>
+<groupId>com.jlcindia</groupId>
+<artifactId>myjlcapp</artifactId>
+<version>1.9</version>
+</dependency>
+
